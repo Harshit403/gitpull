@@ -1,6 +1,7 @@
 import telepot
 import os
 from telepot.loop import MessageLoop
+import time
 
 # Fetch tokens from environment variables
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -13,7 +14,11 @@ def handle(msg):
     if content_type == 'text':
         command = msg['text']
 
-        if command == '/pull':
+        if command == '/start':
+            bot.sendMessage(chat_id, "Hello! I'm your bot. Use /pull to update the repository.")
+        
+        elif command == '/pull':
+            updating_message = bot.sendMessage(chat_id, "Updating... Please wait.")
             try:
                 # Change to your repository directory
                 os.chdir('/home/Harshit11/domains/mycamtp.com/public_html')
@@ -24,10 +29,10 @@ def handle(msg):
                 # Pull the latest changes
                 result = os.popen('git pull').read()
 
-                # Send the result back to the user
-                bot.sendMessage(chat_id, f"Result of `git pull`:\n{result}")
+                # Edit the updating message with the result
+                bot.editMessageText((chat_id, updating_message['message_id']), f"Result of `git pull`:\n{result}")
             except Exception as e:
-                bot.sendMessage(chat_id, f"Error: {str(e)}")
+                bot.editMessageText((chat_id, updating_message['message_id']), f"Error: {str(e)}")
 
 bot = telepot.Bot(TOKEN)
 MessageLoop(bot, handle).run_as_thread()
@@ -35,6 +40,5 @@ MessageLoop(bot, handle).run_as_thread()
 print('Listening ...')
 
 # Keep the program running
-import time
 while True:
     time.sleep(10)

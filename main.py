@@ -31,8 +31,12 @@ def handle(msg):
 
                 # Edit the updating message with the result
                 bot.editMessageText((chat_id, updating_message['message_id']), f"Result of `git pull`:\n{result}")
+            
+            except PermissionError as e:
+                bot.editMessageText((chat_id, updating_message['message_id']), "PermissionError: Unable to access the directory or execute the git command. Please check permissions.")
+            
             except Exception as e:
-                bot.editMessageText((chat_id, updating_message['message_id']), f"Error: {str(e)}")
+                bot.editMessageText((chat_id, updating_message['message_id']), f"An unexpected error occurred: {str(e)}")
 
 bot = telepot.Bot(TOKEN)
 MessageLoop(bot, handle).run_as_thread()

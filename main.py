@@ -21,10 +21,10 @@ def handle(msg):
             updating_message = bot.sendMessage(chat_id, "Updating... Please wait.")
             try:
                 # Change to your repository directory
-                os.chdir('/home/Ankit/web/mycsmtp.com/public_html')
+                os.chdir('/home/admin/web/missioncstestseries.com/public_html')
 
                 # Set the remote URL (only needed once, can be omitted after the first run)
-                os.system(f'git remote set-url origin https://{GITHUB_USERNAME}:{GITHUB_PAT}@github.com/Harshit403/mycsmtp.git')
+                os.system(f'git remote set-url origin https://{GITHUB_USERNAME}:{GITHUB_PAT}@github.com/Harshit403/mycamtp.git')
 
                 # Pull the latest changes
                 result = os.popen('git pull').read()
